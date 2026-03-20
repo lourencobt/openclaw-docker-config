@@ -2,7 +2,7 @@
 # =============================================================================
 # OpenClaw Workspace Git Sync
 # =============================================================================
-# Commits and pushes the workspace to a private GitHub repo.
+# Commits and pushes the workspace to a private git remote.
 # Reads config from environment variables (passed by Docker).
 # =============================================================================
 
@@ -102,7 +102,7 @@ FILE_COUNT=$(git diff --cached --numstat | wc -l | tr -d ' ')
 echo "[...] Committing $FILE_COUNT changed file(s)..."
 git commit -m "workspace sync $TIMESTAMP" --quiet
 
-echo "[...] Pushing to $GIT_WORKSPACE_REPO ($GIT_WORKSPACE_BRANCH)..."
+echo "[...] Pushing to ${GIT_WORKSPACE_REPO:-remote} ($GIT_WORKSPACE_BRANCH)..."
 
 if git ls-remote --exit-code origin "$GIT_WORKSPACE_BRANCH" &>/dev/null; then
     git pull origin "$GIT_WORKSPACE_BRANCH" --rebase --allow-unrelated-histories --quiet 2>/dev/null || true
